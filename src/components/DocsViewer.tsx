@@ -167,7 +167,15 @@ function InfoCard({ title, children }: InfoCardProps) {
   );
 }
 
-export default function DocsViewer() {
+interface DocsViewerProps {
+  renderLayout: (
+    leftPanel: React.ReactNode,
+    rightPanel: React.ReactNode,
+    mobileNav: React.ReactNode
+  ) => React.ReactNode;
+}
+
+export default function DocsViewer({ renderLayout }: DocsViewerProps) {
   const [activeSection, setActiveSection] = useState<SectionType>('getting-started');
   const [copiedText, setCopiedText] = useState<string | null>(null);
 
@@ -573,36 +581,31 @@ if (response.status === 429) {
 }`
   };
 
-  return (
-    <div className="flex flex-col text-left flex-1 h-full min-h-0 w-full">
-      {/* Mobile Swipeable Docs Navigation */}
-      <div className="flex md:hidden items-center gap-2 overflow-x-auto px-3 py-2.5 border-b border-white/[0.06] shrink-0 no-scrollbar" style={{ WebkitOverflowScrolling: 'touch', scrollbarWidth: 'none' }}>
-        {navItems.map((item) => {
-          const Icon = item.icon;
-          const isSelected = activeSection === item.id;
-          return (
-            <button
-              key={item.id}
-              onClick={() => setActiveSection(item.id as SectionType)}
-              className={`flex items-center gap-1.5 px-3.5 py-2 rounded-full text-xs font-bold whitespace-nowrap border transition-all ${
-                isSelected
-                  ? 'bg-blue-600 text-white border-blue-500 shadow-[0_2px_8px_rgba(59,130,246,0.3)]'
-                  : 'bg-white/[0.02] text-zinc-400 border-white/[0.06] backdrop-blur-md'
-              }`}
-            >
-              <Icon className="h-3.5 w-3.5" />
-              <span>{item.label}</span>
-            </button>
-          );
-        })}
-      </div>
+  const mobileNav = (
+    <div className="flex md:hidden items-center gap-2 overflow-x-auto px-3 py-2.5 border-b border-white/[0.06] shrink-0 no-scrollbar" style={{ WebkitOverflowScrolling: 'touch', scrollbarWidth: 'none' }}>
+      {navItems.map((item) => {
+        const Icon = item.icon;
+        const isSelected = activeSection === item.id;
+        return (
+          <button
+            key={item.id}
+            onClick={() => setActiveSection(item.id as SectionType)}
+            className={`flex items-center gap-1.5 px-3.5 py-2 rounded-full text-xs font-bold whitespace-nowrap border transition-all ${
+              isSelected
+                ? 'bg-blue-600 text-white border-blue-500 shadow-[0_2px_8px_rgba(59,130,246,0.3)]'
+                : 'bg-white/[0.02] text-zinc-400 border-white/[0.06] backdrop-blur-md'
+            }`}
+          >
+            <Icon className="h-3.5 w-3.5" />
+            <span>{item.label}</span>
+          </button>
+        );
+      })}
+    </div>
+  );
 
-      {/* ── DUAL-PANE: LEFT nav + RIGHT content ── */}
-      <div className="min-w-0 flex flex-col md:flex-row flex-1 h-full min-h-0 w-full">
-
-        {/* LEFT PANEL — independent navigation scroll (desktop only) */}
-        <div className="hidden md:flex flex-col w-52 xl:w-60 shrink-0 border-r border-white/[0.06] layout-scroll-panel">
-          <div className="p-4 pt-5">
+  const leftPanel = (
+    <div className="p-4 pt-5">
             <div className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest px-2 mb-3">
               Documentation
             </div>
@@ -626,12 +629,11 @@ if (response.status === 429) {
                 );
               })}
             </div>
-          </div>
-        </div>
+    </div>
+  );
 
-        {/* RIGHT PANEL — independent content + code scroll */}
-        <div className="layout-scroll-panel min-w-0 flex-1">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 p-5 lg:p-8 items-start">
+  const rightPanel = (
+    <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 p-5 lg:p-8 items-start">
             {/* Left Column - Content Description */}
             <div className="lg:col-span-7 space-y-8 animate-fade-in min-w-0 overflow-x-hidden">
           
@@ -1346,16 +1348,14 @@ const client = new SharpFlow({
             </button>
           </div>
 
-          <div className="p-4 overflow-x-hidden overflow-y-auto max-h-[480px] text-left w-full docs-code-scroll">
+          <div className="p-4 overflow-x-hidden text-left w-full">
             <pre className="text-zinc-300 font-mono leading-relaxed whitespace-pre-wrap break-words select-text w-full min-w-0">
               <code className="text-blue-400 font-mono break-words">{generatedCodes[activeSection]}</code>
             </pre>
           </div>
         </div>
-
-          </div>
-        </div>
-      </div>
     </div>
   );
+
+  return <>{renderLayout(leftPanel, rightPanel, mobileNav)}</>;
 }

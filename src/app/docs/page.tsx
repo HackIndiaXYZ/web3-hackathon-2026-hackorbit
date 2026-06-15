@@ -17,12 +17,20 @@ export default function Docs() {
         </p>
       </div>
 
-      {/* Dual-pane docs viewer — fills ALL remaining height, NEVER overflows */}
-      <div
-        className="relative z-10 bg-white/[0.015] backdrop-blur-xl flex flex-col flex-1 min-h-0 w-full"
-      >
-        <DocsViewer />
-      </div>
+      {/* Dual-pane docs viewer — strictly controls layout structure */}
+      <DocsViewer 
+        renderLayout={(leftPanel, rightPanel, mobileNav) => (
+          <div className="dual-layout-parent w-full">
+            {mobileNav}
+            <div className="hidden md:flex flex-col w-52 xl:w-60 shrink-0 border-r border-white/[0.06] dual-layout-panel">
+              {leftPanel}
+            </div>
+            <div className="dual-layout-panel min-w-0 flex-1">
+              {rightPanel}
+            </div>
+          </div>
+        )}
+      />
     </PageContainer>
   );
 }

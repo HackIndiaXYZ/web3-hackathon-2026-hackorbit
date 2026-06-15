@@ -262,10 +262,10 @@ export default function Dashboard() {
 
   return (
     <PageContainer lockViewport={true}>
-      <main className="w-full px-4 lg:px-8 pt-6 pb-6 relative z-10 flex-1 min-h-0 grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start lg:h-full lg:overflow-hidden">
+      <main className="w-full px-4 lg:px-8 pt-6 pb-6 relative z-10 dual-layout-parent gap-6 lg:gap-8">
         
         {/* Left Side Navigation */}
-        <div className="lg:col-span-3 layout-scroll-panel space-y-4 pb-6 min-h-0">
+        <div className="lg:w-[280px] xl:w-[320px] shrink-0 dual-layout-panel space-y-4 pb-6">
           {user && (
             <button
               onClick={() => setActiveTab('profile')}
@@ -450,7 +450,7 @@ export default function Dashboard() {
         </div>
 
         {/* Right Side - Dynamic Tab panels */}
-        <div className="lg:col-span-9 layout-scroll-panel flex flex-col gap-6 w-full pb-8 pr-1 min-h-0">
+        <div className="flex-1 min-w-0 dual-layout-panel flex flex-col gap-6 pb-8 pr-1">
           {/* Top Dashboard Tab Header & Status */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between border border-white/[0.06] bg-zinc-950/20 backdrop-blur-md rounded-3xl px-4 sm:px-6 py-3.5 sm:py-4.5 gap-4 text-left">
             <div className="space-y-0.5">

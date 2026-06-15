@@ -71,60 +71,45 @@ body {
 }
 
 /* =============================================
-   DOCS VIEWPORT LOCK & INDEPENDENT DUAL SCROLL
+   SCROLL ARCHITECTURE RESET (FINAL ENFORCED VERSION)
    ============================================= */
 
+/* MODE 1 — NORMAL PAGES (BODY SCROLL ONLY) */
+html, body {
+  height: auto;
+  overflow-y: auto;
+}
+
+/* MODE 2 — DUAL LAYOUT (DESKTOP ONLY) */
 @media (min-width: 768px) {
-  .docs-viewport-lock, .layout-viewport-lock {
-    overflow: hidden !important;
-    height: 100dvh !important;
+  .dual-layout-parent {
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
   }
 
-  .docs-container, .layout-container {
-    height: 100% !important;
-    min-height: 0 !important;
-    overflow: hidden !important;
-  }
-
-  .docs-scroll-panel, .layout-scroll-panel {
-    height: 100% !important;
-    overflow-y: auto !important;
-    overflow-x: hidden !important;
-    overscroll-behavior: contain !important;
-  }
-
-  .docs-scroll-panel::after, .layout-scroll-panel::after {
-    content: "";
-    display: block;
-    height: 4.5rem; /* 72px physical scroll offset */
-    width: 100%;
-    flex-shrink: 0;
+  .dual-layout-panel {
+    height: 100%;
+    overflow-y: auto;
+    min-height: 0;
+    padding-bottom: 80px !important; /* Prevents 100vh offset cutoff */
   }
 }
 
+/* MODE 3 — MOBILE */
 @media (max-width: 767px) {
-  .docs-viewport-lock, .layout-viewport-lock {
-    overflow-y: visible !important;
-    height: auto !important;
+  .dual-layout-parent {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    overflow: visible;
   }
 
-  .docs-container, .layout-container {
-    height: auto !important;
-    min-height: 0 !important;
-    overflow: visible !important;
+  .dual-layout-panel {
+    height: auto;
+    overflow: visible;
+    min-height: 0;
   }
-
-  .docs-scroll-panel, .layout-scroll-panel {
-    height: auto !important;
-    overflow-y: visible !important;
-    overflow-x: hidden !important;
-    overscroll-behavior: auto !important;
-  }
-}
-
-.docs-code-scroll {
-  overscroll-behavior: contain;
-  -webkit-overflow-scrolling: touch;
 }
 
 /* Subtle developer-grade grid overlay (Vercel-like lines) */

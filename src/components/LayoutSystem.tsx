@@ -20,22 +20,11 @@ export function PageContainer({
   subtleGrid = true,
 }: PageContainerProps) {
   
-  useEffect(() => {
-    if (lockViewport) {
-      document.documentElement.classList.add('layout-viewport-lock');
-      document.body.classList.add('layout-viewport-lock');
-    }
-    return () => {
-      if (lockViewport) {
-        document.documentElement.classList.remove('layout-viewport-lock');
-        document.body.classList.remove('layout-viewport-lock');
-      }
-    };
-  }, [lockViewport]);
+  // Viewport locking is now strictly controlled by layout wrappers (dual-layout-parent)
 
   return (
     <div 
-      className={`layout-container flex flex-col relative bg-[#0A0A0B] text-white min-h-screen ${
+      className={`flex-1 w-full flex flex-col relative bg-[#0A0A0B] text-white ${
         subtleGrid ? 'subtle-grid-bg' : ''
       } ${className}`}
     >

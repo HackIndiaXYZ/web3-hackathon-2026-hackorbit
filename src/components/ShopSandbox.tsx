@@ -188,10 +188,10 @@ export default function ShopSandbox() {
   };
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 lg:items-stretch items-start text-left lg:h-full lg:overflow-hidden">
+    <div className="dual-layout-parent gap-6 lg:gap-8 w-full">
       
       {/* Left Column: Products */}
-      <div className="lg:col-span-6 layout-scroll-panel space-y-6 pb-8 pr-1 min-h-0">
+      <div className="flex-1 min-w-0 dual-layout-panel space-y-6 pb-8 pr-1">
         <h2 className="text-base font-bold text-zinc-350 px-2 flex items-center gap-2">
           <ShoppingBag className="h-4.5 w-4.5 text-blue-400" />
           Select Premium Upgrade
@@ -295,7 +295,7 @@ export default function ShopSandbox() {
       </div>
 
       {/* Right Column: Interactive State Machine & Terminal Logs */}
-      <div className="lg:col-span-6 layout-scroll-panel space-y-6 pb-8 pr-1 min-h-0">
+      <div className="flex-1 min-w-0 dual-layout-panel space-y-6 pb-8 pr-1">
         <h2 className="text-base font-bold text-zinc-350 px-2 flex items-center gap-2">
           <ShieldCheck className="h-4.5 w-4.5 text-emerald-400" />
           Verification & Settlement Gateway
