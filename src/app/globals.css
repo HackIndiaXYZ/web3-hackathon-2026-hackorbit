@@ -106,33 +106,18 @@ html, body {
   }
 }
 
-/* MODE 3 — MOBILE */
+/* =============================================
+   LAYOUT ISOLATION (ZERO FLICKER SYSTEM)
+   ============================================= */
+
+@media (min-width: 768px) {
+  .mobile-layout { display: none !important; }
+  .desktop-layout { display: flex; flex-direction: column; }
+}
+
 @media (max-width: 767px) {
-  html, body {
-    height: auto !important;
-    overflow-y: auto !important;
-    overflow-x: hidden !important;
-  }
-
-  .dual-layout-parent {
-    display: flex !important;
-    flex-direction: column !important;
-    height: auto !important;
-    min-height: auto !important;
-    overflow: visible !important;
-  }
-
-  .dual-layout-panel {
-    height: auto !important;
-    min-height: auto !important;
-    overflow: visible !important;
-    overflow-y: visible !important;
-    padding-bottom: 0 !important;
-  }
-
-  .dual-layout-panel::after {
-    display: none !important;
-  }
+  .desktop-layout { display: none !important; }
+  .mobile-layout { display: flex; flex-direction: column; }
 }
 
 /* Subtle developer-grade grid overlay (Vercel-like lines) */

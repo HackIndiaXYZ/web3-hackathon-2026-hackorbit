@@ -260,12 +260,8 @@ export default function Dashboard() {
     { id: 'profile', label: 'My Profile', icon: User, category: '👤 Account', tour: undefined },
   ];
 
-  return (
-    <PageContainer lockViewport={true}>
-      <main className="w-full px-4 lg:px-8 pt-6 pb-6 relative z-10 dual-layout-parent gap-6 lg:gap-8">
-        
-        {/* Left Side Navigation */}
-        <div className="lg:w-[280px] xl:w-[320px] shrink-0 dual-layout-panel space-y-4 pb-6">
+  const leftPanel = (
+    <>
           {user && (
             <button
               onClick={() => setActiveTab('profile')}
@@ -446,7 +442,11 @@ export default function Dashboard() {
                 </button>
               );
             })}
-          </div>
+      </>
+  );
+
+  const rightPanel = (
+    <>
         </div>
 
         {/* Right Side - Dynamic Tab panels */}
@@ -1141,9 +1141,33 @@ export default function Dashboard() {
             </div>
 
           </div>
-        </div>
+    </>
+  );
 
-      </main>
+  return (
+    <PageContainer lockViewport={false}>
+      <ResponsiveLayout
+        desktop={
+          <main className="w-full px-4 lg:px-8 pt-6 pb-6 relative z-10 dual-layout-parent gap-6 lg:gap-8">
+            <div className="w-[280px] xl:w-[320px] shrink-0 dual-layout-panel space-y-4 pb-6">
+              {leftPanel}
+            </div>
+            <div className="flex-1 min-w-0 dual-layout-panel flex flex-col gap-6 pb-8 pr-1">
+              {rightPanel}
+            </div>
+          </main>
+        }
+        mobile={
+          <main className="w-full px-4 pt-6 pb-6 relative z-10 flex flex-col gap-6">
+            <div className="w-full space-y-4">
+              {leftPanel}
+            </div>
+            <div className="w-full flex flex-col gap-6 pb-8">
+              {rightPanel}
+            </div>
+          </main>
+        }
+      />
     </PageContainer>
   );
 }

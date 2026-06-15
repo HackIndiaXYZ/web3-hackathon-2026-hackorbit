@@ -48,7 +48,11 @@ const PRODUCTS: Product[] = [
 
 type FailureMode = 'none' | 'rpc_down' | 'duplicate_checkout' | 'wallet_mismatch' | 'insufficient_gas';
 
-export default function ShopSandbox() {
+interface ShopSandboxProps {
+  renderLayout: (leftPanel: React.ReactNode, rightPanel: React.ReactNode) => React.ReactNode;
+}
+
+export default function ShopSandbox({ renderLayout }: ShopSandboxProps) {
   const { user, balance, setBalance, addTransaction, isLiveMode } = useSharpStore();
 
   const [selectedProduct, setSelectedProduct] = useState<Product>(PRODUCTS[0]);
@@ -187,11 +191,8 @@ export default function ShopSandbox() {
     toast.success('Purchase confirmed successfully!', { icon: '🛍️' });
   };
 
-  return (
-    <div className="dual-layout-parent gap-6 lg:gap-8 w-full">
-      
-      {/* Left Column: Products */}
-      <div className="flex-1 min-w-0 dual-layout-panel space-y-6 pb-8 pr-1">
+  const leftPanel = (
+    <div className="flex-1 min-w-0 space-y-6 pb-8 pr-1">
         <h2 className="text-base font-bold text-zinc-350 px-2 flex items-center gap-2">
           <ShoppingBag className="h-4.5 w-4.5 text-blue-400" />
           Select Premium Upgrade
@@ -234,7 +235,6 @@ export default function ShopSandbox() {
           })}
         </div>
 
-        {/* Balance Tracker */}
         <GlassCard className="p-6 border border-white/[0.08] bg-white/[0.03] text-left">
           <div className="flex items-center justify-between">
             <div className="space-y-1">
@@ -251,7 +251,6 @@ export default function ShopSandbox() {
           </div>
         </GlassCard>
 
-        {/* Interactive Failure Modes Panel */}
         <GlassCard className="p-6 border border-white/[0.08] bg-white/[0.02] text-left">
           <h3 className="text-xs font-bold text-zinc-400 uppercase tracking-wider mb-4 flex items-center gap-1.5">
             <ShieldAlert className="h-4 w-4 text-purple-400" />
@@ -293,15 +292,15 @@ export default function ShopSandbox() {
           </div>
         </GlassCard>
       </div>
+  );
 
-      {/* Right Column: Interactive State Machine & Terminal Logs */}
-      <div className="flex-1 min-w-0 dual-layout-panel space-y-6 pb-8 pr-1">
+  const rightPanel = (
+    <div className="flex-1 min-w-0 space-y-6 pb-8 pr-1">
         <h2 className="text-base font-bold text-zinc-350 px-2 flex items-center gap-2">
           <ShieldCheck className="h-4.5 w-4.5 text-emerald-400" />
           Verification & Settlement Gateway
         </h2>
 
-        {/* Checkout Action Card */}
         <GlassCard className="p-6 border border-white/[0.08] bg-white/[0.03] text-left">
           <div className="space-y-5">
             <div className="flex items-center justify-between">
@@ -331,7 +330,6 @@ export default function ShopSandbox() {
 
             {checkoutStep !== 'idle' && (
               <div className="space-y-4">
-                {/* Settlement State Progress Indicators */}
                 <div className="grid grid-cols-3 gap-2">
                   <div className={`p-3 rounded-xl border text-center space-y-1 transition-all ${
                     checkoutStep === 'signing'
@@ -401,7 +399,6 @@ export default function ShopSandbox() {
           </div>
         </GlassCard>
 
-        {/* Cryptographic payload telemetry */}
         {payloadDetails && (
           <GlassCard className="p-5 border border-white/[0.08] bg-white/[0.02] text-left">
             <div className="flex items-center justify-between border-b border-white/[0.06] pb-3.5 mb-4">
@@ -466,7 +463,6 @@ export default function ShopSandbox() {
           </GlassCard>
         )}
 
-        {/* Terminal Logs Output */}
         <div className="rounded-3xl border border-white/[0.06] bg-zinc-950 p-5 font-mono text-xs text-left">
           <div className="flex items-center justify-between border-b border-white/[0.06] pb-3 mb-3.5">
             <span className="text-zinc-400 font-bold uppercase tracking-wider text-[10px] flex items-center gap-1.5">
@@ -498,6 +494,7 @@ export default function ShopSandbox() {
         </div>
 
       </div>
-    </div>
   );
+
+  return <>{renderLayout(leftPanel, rightPanel)}</>;
 }
