@@ -24,7 +24,7 @@ export function PageContainer({
 
   return (
     <div 
-      className={`flex-1 w-full flex flex-col relative bg-[#0A0A0B] text-white ${
+      className={`flex-1 w-full flex flex-col relative bg-[#0A0A0B] text-white min-h-0 ${
         subtleGrid ? 'subtle-grid-bg' : ''
       } ${className}`}
     >
