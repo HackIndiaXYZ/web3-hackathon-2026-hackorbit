@@ -442,13 +442,12 @@ export default function Dashboard() {
                 </button>
               );
             })}
-      </>
+          </div>
+    </>
   );
 
   const rightPanel = (
     <>
-        </div>
-
         {/* Right Side - Dynamic Tab panels */}
         <div className="flex-1 min-w-0 dual-layout-panel flex flex-col gap-6 pb-8 pr-1">
           {/* Top Dashboard Tab Header & Status */}
