@@ -165,7 +165,7 @@ export default function LoginPage() {
     <div
       ref={containerRef}
       onMouseMove={handleMouseMove}
-      className="min-h-screen flex bg-[#0A0A0B] text-white overflow-hidden relative"
+      className="min-h-screen flex bg-[#0A0A0B] text-white overflow-x-hidden relative"
     >
       {/* ─── LEFT SIDE (60%) ─────────────────────────────── */}
       <div className="hidden lg:flex lg:w-[60%] relative flex-col justify-between p-12 border-r border-white/[0.04]">

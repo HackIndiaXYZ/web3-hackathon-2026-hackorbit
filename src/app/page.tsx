@@ -89,7 +89,7 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen relative bg-zinc-950 text-white overflow-hidden select-none subtle-grid-bg">
+    <div className="min-h-screen relative bg-zinc-950 text-white overflow-x-hidden select-none subtle-grid-bg">
       
       {/* 1. Hardware-accelerated dynamic Space Background WebGL Canvas */}
       <BackgroundSpace />

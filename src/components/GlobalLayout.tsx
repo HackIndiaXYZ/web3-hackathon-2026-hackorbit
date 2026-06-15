@@ -10,13 +10,13 @@ export default function GlobalLayout({ children }: { children: React.ReactNode }
   const showNavbar = pathname !== '/' && pathname !== '/login';
 
   return (
-    <div className="flex flex-col flex-1 min-h-0 h-full w-full">
+    <div className="flex flex-col flex-1 w-full">
       {showNavbar && (
         <div className="shrink-0 relative z-50">
           <Navbar />
         </div>
       )}
-      <div className="flex-1 min-h-0 flex flex-col w-full relative">
+      <div className="flex-1 flex flex-col w-full relative">
         {children}
       </div>
     </div>

@@ -262,7 +262,7 @@ export default function Dashboard() {
 
   return (
     <PageContainer lockViewport={true}>
-      <main className="w-full px-4 lg:px-8 pt-6 pb-6 relative z-10 flex-1 grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 lg:items-stretch items-start min-h-0 h-auto overflow-visible lg:h-full lg:overflow-hidden">
+      <main className="w-full px-4 lg:px-8 pt-6 pb-6 relative z-10 flex-1 min-h-0 grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start lg:h-full lg:overflow-hidden">
         
         {/* Left Side Navigation */}
         <div className="lg:col-span-3 layout-scroll-panel space-y-4 pb-6 min-h-0">

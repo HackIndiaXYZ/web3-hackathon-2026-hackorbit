@@ -574,7 +574,7 @@ if (response.status === 429) {
   };
 
   return (
-    <div className="flex flex-col text-left h-auto md:h-full min-h-0">
+    <div className="flex flex-col text-left flex-1 h-full min-h-0 w-full">
       {/* Mobile Swipeable Docs Navigation */}
       <div className="flex md:hidden items-center gap-2 overflow-x-auto px-3 py-2.5 border-b border-white/[0.06] shrink-0 no-scrollbar" style={{ WebkitOverflowScrolling: 'touch', scrollbarWidth: 'none' }}>
         {navItems.map((item) => {
@@ -597,11 +597,11 @@ if (response.status === 429) {
         })}
       </div>
 
-      {/* ── DUAL-PANE: LEFT nav + RIGHT content — each independently scrollable ── */}
-      <div className="min-w-0 flex flex-col md:flex-row h-auto md:h-full overflow-visible md:overflow-hidden flex-1 min-h-0">
+      {/* ── DUAL-PANE: LEFT nav + RIGHT content ── */}
+      <div className="min-w-0 flex flex-col md:flex-row flex-1 h-full min-h-0 w-full">
 
         {/* LEFT PANEL — independent navigation scroll (desktop only) */}
-        <div className="hidden md:flex flex-col w-52 xl:w-60 shrink-0 border-r border-white/[0.06] layout-scroll-panel min-h-0">
+        <div className="hidden md:flex flex-col w-52 xl:w-60 shrink-0 border-r border-white/[0.06] layout-scroll-panel">
           <div className="p-4 pt-5">
             <div className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest px-2 mb-3">
               Documentation
@@ -630,7 +630,7 @@ if (response.status === 429) {
         </div>
 
         {/* RIGHT PANEL — independent content + code scroll */}
-        <div className="layout-scroll-panel min-w-0 flex-1 min-h-0">
+        <div className="layout-scroll-panel min-w-0 flex-1">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 p-5 lg:p-8 items-start">
             {/* Left Column - Content Description */}
             <div className="lg:col-span-7 space-y-8 animate-fade-in min-w-0 overflow-x-hidden">

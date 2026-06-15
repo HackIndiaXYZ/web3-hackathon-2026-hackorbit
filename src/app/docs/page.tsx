@@ -19,7 +19,7 @@ export default function Docs() {
 
       {/* Dual-pane docs viewer — fills ALL remaining height, NEVER overflows */}
       <div
-        className="relative z-10 bg-white/[0.015] backdrop-blur-xl flex flex-col h-auto overflow-visible md:flex-1 md:min-h-0 md:overflow-hidden"
+        className="relative z-10 bg-white/[0.015] backdrop-blur-xl flex flex-col flex-1 min-h-0 w-full"
       >
         <DocsViewer />
       </div>
