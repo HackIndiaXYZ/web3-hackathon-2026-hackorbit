@@ -108,17 +108,30 @@ html, body {
 
 /* MODE 3 — MOBILE */
 @media (max-width: 767px) {
+  html, body {
+    height: auto !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+  }
+
   .dual-layout-parent {
-    display: flex;
-    flex-direction: column;
-    height: auto;
-    overflow: visible;
+    display: flex !important;
+    flex-direction: column !important;
+    height: auto !important;
+    min-height: auto !important;
+    overflow: visible !important;
   }
 
   .dual-layout-panel {
-    height: auto;
-    overflow: visible;
-    min-height: 0;
+    height: auto !important;
+    min-height: auto !important;
+    overflow: visible !important;
+    overflow-y: visible !important;
+    padding-bottom: 0 !important;
+  }
+
+  .dual-layout-panel::after {
+    display: none !important;
   }
 }
 
