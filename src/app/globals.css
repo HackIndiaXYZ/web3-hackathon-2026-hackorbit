@@ -1,26 +1,238 @@
 @import "tailwindcss";
 
+/* =============================================
+   SCROLL ARCHITECTURE — SINGLE SCROLL SYSTEM
+   Only the window/body scrolls. No nested
+   scroll containers except .docs-code-scroll.
+   ============================================= */
+
+html {
+  scroll-behavior: smooth;
+}
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --background: #0A0A0B;
+  --foreground: #f4f4f5;
+  --font-geist-sans: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-geist-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  /* Scrollbar design tokens */
+  --scrollbar-width: 5px;
+  --scrollbar-track: rgba(255, 255, 255, 0.03);
+  --scrollbar-thumb: rgba(255, 255, 255, 0.12);
+  --scrollbar-thumb-hover: rgba(255, 255, 255, 0.22);
+  --scrollbar-radius: 999px;
 }
 
 body {
-  background: var(--background);
+  background-color: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior-y: none;
+  font-family: var(--font-geist-sans), Inter, sans-serif;
+  background-image: 
+    radial-gradient(circle at 50% 0%, #101114 0%, #0A0A0B 75%),
+    radial-gradient(circle at 100% 100%, #121318 0%, #0A0A0B 85%);
+}
+
+/* =============================================
+   PREMIUM GLOBAL SCROLLBAR (Webkit)
+   Thin, rounded, low-opacity — Stripe/Vercel style
+   ============================================= */
+
+::-webkit-scrollbar {
+  width: var(--scrollbar-width);
+  height: var(--scrollbar-width);
+}
+
+::-webkit-scrollbar-track {
+  background: var(--scrollbar-track);
+  border-radius: var(--scrollbar-radius);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+  border-radius: var(--scrollbar-radius);
+  transition: background 0.2s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--scrollbar-thumb-hover);
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+}
+
+/* =============================================
+   DOCS VIEWPORT LOCK & INDEPENDENT DUAL SCROLL
+   ============================================= */
+
+/* Desktop-specific layout rules (width >= 768px) */
+@media (min-width: 768px) {
+  .docs-viewport-lock, .layout-viewport-lock {
+    overflow: hidden !important;
+    height: 100vh !important;
+    height: 100dvh !important;
+  }
+  
+  .docs-container, .layout-container {
+    height: 100% !important;
+    min-height: 0 !important;
+    overflow: hidden !important;
+  }
+  
+  .docs-scroll-panel, .layout-scroll-panel {
+    height: 100% !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    overscroll-behavior: contain !important;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .docs-scroll-panel::after, .layout-scroll-panel::after {
+    content: "";
+    display: block;
+    height: 4.5rem; /* 72px physical scroll offset to guarantee viewport bottom clearance */
+    width: 100%;
+    flex-shrink: 0;
+  }
+}
+
+/* Mobile-specific layout rules (width < 768px) */
+@media (max-width: 767px) {
+  .docs-viewport-lock, .layout-viewport-lock {
+    overflow-y: auto !important;
+    height: auto !important;
+  }
+  
+  .docs-container, .layout-container {
+    height: auto !important;
+    overflow: visible !important;
+  }
+  
+  .docs-scroll-panel, .layout-scroll-panel {
+    height: auto !important;
+    overflow: visible !important;
+    overscroll-behavior: auto !important;
+  }
+}
+
+.docs-code-scroll {
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Subtle developer-grade grid overlay (Vercel-like lines) */
+.subtle-grid-bg {
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.012) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.012) 1px, transparent 1px);
+  background-size: 48px 48px;
+  background-position: center top;
+}
+
+/* Glassmorphism ambient blur glows - blue and purple bloom */
+.glass-glow-purple {
+  filter: blur(140px);
+  background: radial-gradient(circle, rgba(168, 85, 247, 0.10) 0%, rgba(236, 72, 153, 0.01) 100%);
+}
+
+.glass-glow-blue {
+  filter: blur(140px);
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.10) 0%, rgba(147, 51, 234, 0.01) 100%);
+}
+
+/* SVG noise grain overlay */
+.noise-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.015;
+  z-index: 999;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+/* Aurora wave CSS animations (Hardware accelerated compositor layers) */
+@keyframes aurora-wave-1 {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
+  }
+  33% {
+    transform: translate3d(40px, -60px, 0) scale(1.15) rotate(10deg);
+  }
+  66% {
+    transform: translate3d(-30px, 30px, 0) scale(0.9) rotate(-10deg);
+  }
+  100% {
+    transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
+  }
+}
+
+@keyframes aurora-wave-2 {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
+  }
+  50% {
+    transform: translate3d(-50px, 50px, 0) scale(1.1) rotate(-15deg);
+  }
+  100% {
+    transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
+  }
+}
+
+.animate-aurora-1 {
+  animation: aurora-wave-1 25s infinite ease-in-out;
+  will-change: transform;
+}
+
+.animate-aurora-2 {
+  animation: aurora-wave-2 30s infinite ease-in-out;
+  will-change: transform;
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.no-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+/* Image optimization progressive fade-in */
+.image-fade {
+  opacity: 0;
+  transform: scale(0.98);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.image-fade.loaded {
+  opacity: 1;
+  transform: scale(1);
+}
+
+@keyframes status-pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(0, 255, 136, 0.45);
+  }
+  50% {
+    opacity: 0.85;
+    transform: scale(0.92);
+    box-shadow: 0 0 0 6px rgba(0, 255, 136, 0);
+  }
+}
+
+.animate-status-pulse {
+  animation: status-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
